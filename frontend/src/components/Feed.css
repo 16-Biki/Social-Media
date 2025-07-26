@@ -1,0 +1,166 @@
+.feed-container {
+  padding: 20px;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
+.profile-post-container {
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logged-in-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.logged-in-user h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+  flex: 1;
+}
+
+.header-profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.logout-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 10px;  /* smaller padding */
+  font-size: 16px;    /* smaller text */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: auto;        /* shrink to fit text */
+  float: right; /* moves button to the right */
+  margin-left: auto; /* pushes it to far right */
+}
+.logout-button:hover {
+  background-color: #e60000;
+}
+
+.post-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-profile-pic {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+}
+
+.post-time {
+  color: #65676b;
+  font-size: 12px;
+}
+
+.post-content p {
+  margin: 10px 0;
+}
+
+.post-media img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.post-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+.like-button {
+  background: none;
+  border: none;
+  color: #555;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 16px;
+  transition: color 0.2s ease, font-weight 0.2s ease;
+}
+.delete-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 10px;  /* smaller padding */
+  font-size: 16px;    /* smaller text */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: auto;        /* shrink to fit text */
+  float: right; /* moves button to the right */
+  margin-left: auto; /* pushes it to far right */
+}
+
+.delete-button:hover {
+  background-color: #e60000;
+}
+
+
+.delete-button:hover {
+  background-color: #e60000;
+}
+
+
+.delete-button:hover {
+  background-color: #e60000; /* Darker red on hover */
+}
+.like-button:hover {
+  text-decoration: underline;
+}
+
+.like-button.liked {
+  color: #1877f2; 
+  font-weight: bold;
+}
+.send-button {
+  background-color: #1877f2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.send-button:hover {
+  background-color: #0865de;
+}
