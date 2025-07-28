@@ -53,7 +53,7 @@ const PostCard = memo(({ post, getProfilePic, user, onDeletePost, onToggleLike, 
             {post.media.map((m, index) => (
               <img
                 key={index}
-                src={`http://localhost:5000/api/posts/media/${post._id}/${index}`}
+                src={`https://social-media-nj4b.onrender.com/api/posts/media/${post._id}/${index}`}
                 alt="post media"
               />
             ))}
@@ -111,7 +111,7 @@ function Feed({ user, setUser }) {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/posts");
+      const res = await axios.get("https://social-media-nj4b.onrender.com/api/posts");
       setPosts(res.data);
     } catch (err) {
       console.error("Error fetching posts:", err);
@@ -150,7 +150,7 @@ function Feed({ user, setUser }) {
 
   const getProfilePic = (id) =>
     id
-      ? `http://localhost:5000/api/auth/profile-pic/${id}?t=${refreshPic}`
+      ? `https://social-media-nj4b.onrender.com/api/auth/profile-pic/${id}?t=${refreshPic}`
       : defaultProfile;
 
   const handleFileChange = async (e) => {
@@ -162,7 +162,7 @@ function Feed({ user, setUser }) {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/auth/uploadProfilePic/${user.email}`,
+        `https://social-media-nj4b.onrender.com/api/auth/uploadProfilePic/${user.email}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -181,7 +181,7 @@ function Feed({ user, setUser }) {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${postId}`, {
+      await axios.delete(`https://social-media-nj4b.onrender.com/api/posts/${postId}`, {
         data: { userId: user._id },
       });
       setPosts((prev) => prev.filter((p) => p._id !== postId));
@@ -205,7 +205,7 @@ function Feed({ user, setUser }) {
         )
       );
 
-      await axios.put(`http://localhost:5000/api/posts/like/${postId}`, {
+      await axios.put(`https://social-media-nj4b.onrender.com/api/posts/like/${postId}`, {
         userId: user._id,
       });
     } catch (err) {
@@ -226,7 +226,7 @@ function Feed({ user, setUser }) {
         )
       );
 
-      await axios.post(`http://localhost:5000/api/posts/comment/${postId}`, {
+      await axios.post(`https://social-media-nj4b.onrender.com/api/posts/comment/${postId}`, {
         userId: user._id,
         author: user.name,
         text,
