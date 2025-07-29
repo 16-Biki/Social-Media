@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
   {
-    userId: mongoose.Schema.Types.ObjectId, // can link to user if needed
-    author: { type: String, required: true }, // store author's name
+    userId: mongoose.Schema.Types.ObjectId, // Post creator
+    author: { type: String, required: true }, // Post creator's name
     text: String,
     media: [
       {
@@ -14,18 +14,19 @@ const postSchema = new mongoose.Schema(
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User", // Each like is by a user
+        ref: "User",
       },
     ],
     comments: [
-  {
-    userId: mongoose.Schema.Types.ObjectId,
-    text: String,
-    createdAt: { type: Date, default: Date.now }
-  }
-],
+      {
+        userId: mongoose.Schema.Types.ObjectId,
+        author: { type: String, required: true },  // ✅ Add this line
+        text: String,
+        createdAt: { type: Date, default: Date.now }
+      }
+    ],
   },
-  { timestamps: true } // ✅ Automatically adds createdAt and updatedAt
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Post", postSchema);

@@ -104,6 +104,7 @@ router.put("/like/:postId", async (req, res) => {
     res.status(500).json({ message: "Error updating like" });
   }
 });
+// POST /comment/:postId
 router.post("/comment/:postId", async (req, res) => {
   try {
     const { userId, author, text } = req.body;
@@ -116,24 +117,21 @@ router.post("/comment/:postId", async (req, res) => {
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
-
-    // Create new comment object
+   const user = await User.findById(userId);
     const newComment = {
       userId,
-      author,
+      author:user.name,
       text,
       createdAt: new Date(),
     };
 
-    // Add comment to the post
     post.comments.push(newComment);
     await post.save();
 
-    // Send updated post back
-    res.json(post);
-
-    // Emit socket event for real-time update
+    // Emit socket event
     req.app.get("io").emit("postCommented", post);
+
+    res.json(post);
   } catch (err) {
     console.error("Error adding comment:", err);
     res.status(500).json({ error: "Failed to add comment" });

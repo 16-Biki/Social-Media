@@ -34,7 +34,7 @@ function Register({ setPage }) {
     };
 
     try {
-      await axios.post("https://social-media-nj4b.onrender.com/api/auth/register", dataToSend);
+      await axios.post("http://localhost:5000/api/auth/register", dataToSend);
       alert("Registered successfully! Now go to the login page.");
       setPage("login");
     } catch (err) {

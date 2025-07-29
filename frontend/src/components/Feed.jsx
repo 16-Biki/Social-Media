@@ -12,20 +12,19 @@ const PostCard = memo(({ post, getProfilePic, user, onDeletePost, onToggleLike, 
   const [showComments, setShowComments] = useState(false);
   const [visibleCount, setVisibleCount] = useState(2); // initially show 2 comments
 
-  const handleCommentSubmit = () => {
-    if (!commentText.trim()) return;
-    onAddComment(post._id, commentText,user.name);
-    setCommentText("");
-  };
+const handleCommentSubmit = () => {
+  if (!commentText.trim()) return;
+  onAddComment(post._id, commentText); // ✅ Removed user.name from here
+  setCommentText("");
+};
 
-  const handleViewMore = () => {
-    setVisibleCount(post.comments.length); // show all comments
-  };
+const handleViewMore = () => {
+  setVisibleCount(post.comments.length); // show all comments
+};
+const visibleComments = (post.comments || []).slice(-visibleCount);
 
- const visibleComments = (post.comments || []).slice(-visibleCount).map((c) => ({
-    ...c,
-    author: c.author || user.name
-  }));
+
+
   return (
     <div className="post-card">
       <div className="post-header">
@@ -53,7 +52,7 @@ const PostCard = memo(({ post, getProfilePic, user, onDeletePost, onToggleLike, 
             {post.media.map((m, index) => (
               <img
                 key={index}
-                src={`https://social-media-nj4b.onrender.com/api/posts/media/${post._id}/${index}`}
+                src={`http://localhost:5000/api/posts/media/${post._id}/${index}`}
                 alt="post media"
               />
             ))}
@@ -75,12 +74,12 @@ const PostCard = memo(({ post, getProfilePic, user, onDeletePost, onToggleLike, 
 
       {showComments && (
         <div className="comments-section">
-          {visibleComments.map((c, idx) => (
-            <div key={idx} className="comment">
-              <strong>{c.author}</strong>: {c.text}
-              <div className="comment-time">{new Date(c.createdAt).toLocaleString()}</div>
-            </div>
-          ))}
+         {visibleComments.map((c, idx) => (
+  <div key={idx} className="comment">
+    <strong>{c.author || "Unknown User"}</strong>: {c.text}
+    <div className="comment-time">{new Date(c.createdAt).toLocaleString()}</div>
+  </div>
+))}
 
           {post.comments.length > visibleCount && (
             <button className="view-more" onClick={handleViewMore}>
@@ -111,7 +110,7 @@ function Feed({ user, setUser }) {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get("https://social-media-nj4b.onrender.com/api/posts");
+      const res = await axios.get("http://localhost:5000/api/posts");
       setPosts(res.data);
     } catch (err) {
       console.error("Error fetching posts:", err);
@@ -150,7 +149,7 @@ function Feed({ user, setUser }) {
 
   const getProfilePic = (id) =>
     id
-      ? `https://social-media-nj4b.onrender.com/api/auth/profile-pic/${id}?t=${refreshPic}`
+      ? `http://localhost:5000/api/auth/profile-pic/${id}?t=${refreshPic}`
       : defaultProfile;
 
   const handleFileChange = async (e) => {
@@ -162,7 +161,7 @@ function Feed({ user, setUser }) {
 
     try {
       await axios.post(
-        `https://social-media-nj4b.onrender.com/api/auth/uploadProfilePic/${user.email}`,
+        `http://localhost:5000/api/auth/uploadProfilePic/${user.email}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -181,7 +180,7 @@ function Feed({ user, setUser }) {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`https://social-media-nj4b.onrender.com/api/posts/${postId}`, {
+      await axios.delete(`http://localhost:5000/api/posts/${postId}`, {
         data: { userId: user._id },
       });
       setPosts((prev) => prev.filter((p) => p._id !== postId));
@@ -205,7 +204,7 @@ function Feed({ user, setUser }) {
         )
       );
 
-      await axios.put(`https://social-media-nj4b.onrender.com/api/posts/like/${postId}`, {
+      await axios.put(`http://localhost:5000/api/posts/like/${postId}`, {
         userId: user._id,
       });
     } catch (err) {
@@ -214,27 +213,36 @@ function Feed({ user, setUser }) {
   };
 
   const handleAddComment = async (postId, text) => {
-    try {
-      setPosts((prev) =>
-        prev.map((p) =>
-          p._id === postId
-            ? {
-                ...p,
-                comments: [...p.comments, { userId: user._id, author: user.name, text, createdAt: new Date() }],
-              }
-            : p
-        )
-      );
+  try {
+    setPosts((prev) =>
+      prev.map((p) =>
+        p._id === postId
+          ? {
+              ...p,
+              comments: [
+                ...p.comments,
+                {
+                  userId: user._id,
+                  author: user.name,
+                  text,
+                  createdAt: new Date(),
+                },
+              ],
+            }
+          : p
+      )
+    );
 
-      await axios.post(`https://social-media-nj4b.onrender.com/api/posts/comment/${postId}`, {
-        userId: user._id,
-        author: user.name,
-        text,
-      });
-    } catch (err) {
-      console.error("Failed to add comment:", err);
-    }
-  };
+    await axios.post(`http://localhost:5000/api/posts/comment/${postId}`, {
+      userId: user._id,
+      author: user.name,
+      text,
+    });
+  } catch (err) {
+    console.error("Failed to add comment:", err);
+  }
+};
+
 
   return (
   <div className="feed-container">
