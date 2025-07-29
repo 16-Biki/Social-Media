@@ -7,7 +7,7 @@ function ProfileUploader({ email, refreshUser }) {
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append("profilePic", file);
-   await axios.post(`http://localhost:5000/api/auth/uploadProfilePic/${email}`, formData, {
+   await axios.post(`https://social-media-nj4b.onrender.com/api/auth/uploadProfilePic/${email}`, formData, {
     headers: { "Content-Type": "multipart/form-data" }
 });
 

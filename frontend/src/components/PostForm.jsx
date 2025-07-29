@@ -32,7 +32,7 @@ function PostForm({ user, addNewPost }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/posts/create",
+        "https://social-media-nj4b.onrender.com/api/posts/create",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } } 
         // tells the server that  sending files.
